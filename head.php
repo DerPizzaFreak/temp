@@ -17,7 +17,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // Beispiel:
         if ($username == 'demo' && $password == 'pass') {
             $_SESSION['username'] = $username; // Benutzer in der Sitzung speichern
-            header('Location: welcome.php'); // Weiterleitung zur Willkommensseite
+            header('Location: index2.htm'); // Weiterleitung zur Willkommensseite
             exit();
         } else {
             // Login fehlgeschlagen
