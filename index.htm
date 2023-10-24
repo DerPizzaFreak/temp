@@ -1,173 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>Register / Login Dialog</title>
-	<style>
-		body {
-			font-family: Verdana;
-			font-size: 18px;
-		}
-
-		table {
-			width: 350px;
-			background-color: #ddd;
-			padding: 10px;
-			border: 1px solid black;
-		}
-
-		#info {
-			width: 340px;
-			border-style: solid;
-			border-width: 1px;
-			border-color: red;
-			background-color: yellow;
-			margin-top: 20px;
-			padding-left: 10px;
-			color: red;
-		}
-
-		.btn {
-			background-color: #000;
-			color: #fff;
-			padding: 6px;
-		}
-
-		.inp {
-			background-color: #ccc;
-			width: 150px;
-			border: 1px solid black;
-			color: #00f;
-		}
-
-		.dontShow {
-			display: none;
-		}
-	</style>
-	<script>
-		var rst, usr, pw1, pw2, frm, inf, btnLogin, btnRegister, form;
-
-		var toggleView = function () {
-			var els1 = document.getElementsByClassName('toggle');
-			var els2 = document.getElementsByClassName('dontShow');	// array-like object
-
-			for (el of els1) {
-				if (Array.from(els2).indexOf(el) != -1) {
-					el.classList.remove('dontShow');
-				} else {
-					el.classList.add('dontShow');
-				}
-			}
-
-			usr.focus();
-		};
-
-		var clear = function () {
-			this.value = '';
-		};
-
-		function validateForm(usecase) {
-			if (usr.value == '') {
-				info.innerHTML = 'You must enter a username';
-				return;
-			}
-
-			if (pw1.value == '') {
-				inf.innerHTML = 'You must enter a password';
-				return;
-			}
-
-			if (usecase == 'register') {
-				if (pw2.value == '') {
-					inf.innerHTML = 'You must repeat the password';
-					return;
-				}
-
-				if (pw1.value != pw2.value) {
-					inf.innerHTML = 'Password mismatch';
-					return;
-				}
-			}
-
-			// Keine Eingabefehler mehr
-			inf.innerHTML = '';
-			alert('Ready to submit');
-		};
-
-		window.onload = function () {
-			rst = document.getElementById('btnReset');
-			usr = document.getElementById('username');
-			pw1 = document.getElementById('password1');
-			pw2 = document.getElementById('password2');
-			frm = document.getElementById('form');
-			inf = document.getElementById('info');
-			btnLogin = document.getElementById('btnLogin');
-			btnRegister = document.getElementById('btnRegister');
-
-			usr.focus();
-
-			// Die JavaScript-Funktion 'bind' übergibt ihr zweites Argument an die 
-			// Funktion 'validateForm' als Input. Das passiert aber erst bei der Aus-
-			// führung der Funktion 'validateForm' nach einem Klick Event. Wenn man
-			// 'btnLogin.onclick = validateForm('login');' schreibt, würde 'validateForm'
-			// bereits bei der Registrierung des Event Handlers ausgeführt werden,
-			// was ein Fehler wäre. Das erste Argument von 'bind' wird innerhalb der 
-			// Funktion 'validateForm' zur this-Referenz, was für diese Aufgabe nicht 
-			// von Bedeutung ist. 
-			// Siehe auch: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
-			btnLogin.onclick = validateForm.bind(btnLogin, 'login');
-
-			// Die JavaScript-Funktion 'addEventListener' ist eine alternative Methode 
-			// einen Event Handler zu registrieren.
-			btnRegister.addEventListener('click', validateForm.bind(btnRegister, 'register'));
-
-			usr.value = '';
-			pw1.value = '';
-			pw2.value = '';
-
-			usr.onfocus = clear;
-			pw1.onfocus = clear;
-			pw2.onfocus = clear;
-
-			rst.onclick = function () {
-				usr.focus();
-			};
-		};
-	</script>
+    <meta charset="utf-8" />
+    <title>Register / Login Dialog</title>
 </head>
-
 <body>
-	<form id="form" method="POST" action=".\head.php">
-		<table>
-			<tr>
-				<td>Username:</td>
-				<td><input id="username" class="inp" name="username" type="text" /></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input id="password1" class="inp" name="password1" type="password" /></td>
-			</tr>
-			<tr class="dontShow toggle">
-				<td>Repeat Password:</td>
-				<td><input id="password2" class="inp" type="password" /></td>
-			</tr>
-			<tr>
-				<td><input id="btnRegister" name="register" class="dontShow toggle btn" type="submit"
-						value="Register" />
-					<input id="btnLogin" name="login" class="toggle btn" type="submit" value="Login" />
-				</td>
-				<td><input id="btnReset" class="btn" type="reset" value="Cancel" /></td>
-			</tr>
-			<tr>
-				<td><a class="toggle" href="javascript:toggleView();">Register</a>
-					<a class="dontShow toggle" href="javascript:toggleView();">Login</a>
-				</td>
-				<td></td>
-			</tr>
-		</table>
-	</form>
-	<div id="info">
-		Error messages and miscellaneous information
-	</div>
+    <form id="form" method="POST" action="process.php">
+        <label for="username">Username:</label>
+        <input id="username" class="inp" name="username" type="text" required>
+
+        <label for="password">Password:</label>
+        <input id="password" class="inp" name="password" type="password" required>
+
+        <input type="submit" class="btn" name="login" value="Login">
+        <input type="submit" class="btn" name="register" value="Register">
+    </form>
 </body>
 </html>
